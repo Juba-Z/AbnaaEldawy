@@ -3,197 +3,701 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Abnaa AlDawy</title>
+    <title>Abnaa ElDawy | أبناء الضوى</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/static/wa.png">
     <style>
-        body {
-            background: #181818;
-            font-family: 'Cairo', sans-serif;
+        :root {
+            --gold: #FFD700;
+            --gold-dim: #c5a200;
+            --gold-glow: rgba(255, 215, 0, 0.15);
+            --dark-bg: #0d0d0d;
+            --card-bg: rgba(30, 30, 30, 0.85);
+            --card-border: rgba(255, 215, 0, 0.12);
+            --card-hover-border: rgba(255, 215, 0, 0.4);
+            --glass-blur: 12px;
+            --text-primary: #f5f5f5;
+            --text-secondary: #aaa;
+            --danger: #ff4d4d;
+            --success: #2ecc71;
         }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: var(--dark-bg);
+            font-family: 'Cairo', sans-serif;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── Animated BG Glow ── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(255,215,0,0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(255,215,0,0.02) 0%, transparent 50%);
+            animation: bgPulse 15s ease-in-out infinite alternate;
+            z-index: 0;
+            pointer-events: none;
+        }
+        @keyframes bgPulse {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-5%, 5%) scale(1.1); }
+        }
+
+        .container { position: relative; z-index: 1; }
+
+        /* ── Header ── */
         .header-bar {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 18px;
-            margin-top: 30px;
-            margin-bottom: 10px;
+            gap: 16px;
+            margin-top: 28px;
+            margin-bottom: 8px;
         }
-        @media (max-width: 600px) {
+        .logo {
+            max-width: 80px;
+            max-height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 20px var(--gold-glow);
+            transition: transform 0.3s ease;
+        }
+        .logo:hover { transform: scale(1.08) rotate(-3deg); }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .brand-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 30px var(--gold-glow);
+            line-height: 1.2;
+        }
+        .brand-subtitle {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* ── Bulk Update Section (Above Footer) ── */
+        .bulk-update-container {
+            display: flex;
+            justify-content: center;
+            margin: 35px auto 10px auto;
+            padding: 0 16px;
+        }
+        .btn-bulk-update {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 215, 0, 0.04));
+            border: 1.5px solid var(--gold);
+            border-radius: 14px;
+            color: var(--gold);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(var(--glass-blur));
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 215, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            white-space: nowrap;
+        }
+        .btn-bulk-update:hover {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+            color: var(--dark-bg);
+            box-shadow: 0 6px 25px var(--gold-glow);
+            transform: translateY(-2px);
+        }
+        .btn-bulk-update:active {
+            transform: translateY(0);
+        }
+        .btn-bulk-icon {
+            font-size: 1.2rem;
+        }
+
+        /* ── Toolbar ── */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            max-width: 500px;
+            margin: 20px auto 16px auto;
+        }
+        .toolbar input {
+            flex: 1;
+            min-width: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            padding: 11px 18px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            backdrop-filter: blur(var(--glass-blur));
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .toolbar input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
+        .toolbar input::placeholder { color: var(--text-secondary); }
+
+        /* ── Icon Buttons ── */
+        .icon-btn {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background: var(--card-bg);
+            color: var(--gold);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(var(--glass-blur));
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .icon-btn:hover {
+            background: var(--gold);
+            color: var(--dark-bg);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--gold-glow);
+        }
+
+        /* ── Empty State ── */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 36px 16px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            background: var(--card-bg);
+            border: 1px dashed var(--card-border);
+            border-radius: 16px;
+            backdrop-filter: blur(var(--glass-blur));
+        }
+
+        /* ── Product Cards ── */
+        .products-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            padding: 0 8px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 18px 16px 14px;
+            cursor: pointer;
+            backdrop-filter: blur(var(--glass-blur));
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.35s;
+        }
+        .product-card:hover {
+            border-color: var(--card-hover-border);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.08);
+        }
+        .product-card:hover::before { opacity: 1; }
+
+        .product-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0;
+            word-break: break-word;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .card-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--card-hover-border), transparent);
+            margin: 10px 0;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .price-input {
+            width: 110px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--gold);
+            font-family: 'Cairo', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            text-align: center;
+            direction: ltr;
+            padding: 8px 0;
+            transition: all 0.3s;
+            -moz-appearance: textfield;
+        }
+        .price-input::-webkit-outer-spin-button,
+        .price-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .price-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        .price-input[readonly] { cursor: default; }
+        .price-currency {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .card-actions {
+            display: none;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .product-card.show-actions .card-actions { display: flex; }
+
+        .btn-action {
+            flex: 1;
+            padding: 6px 0;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+            color: var(--dark-bg);
+        }
+        .btn-gold:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--gold-glow);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+        .btn-outline:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        /* ── Modal Overlay ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.25s ease;
+        }
+        .modal-overlay.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-box {
+            background: #1a1a1a;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px 24px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .modal-input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            padding: 10px 14px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            transition: border-color 0.3s;
+        }
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .modal-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .modal-btns .btn-action { flex: 1; padding: 10px 0; font-size: 0.95rem; }
+
+        .btn-cancel {
+            background: rgba(255,255,255,0.06);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-cancel:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+        /* ── Drop Zone ── */
+        .drop-zone {
+            border: 2px dashed var(--card-border);
+            border-radius: 16px;
+            padding: 30px 16px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 12px;
+        }
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: var(--gold);
+            background: var(--gold-glow);
+            color: var(--gold);
+        }
+        .drop-zone .drop-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .drop-zone .file-name {
+            color: var(--gold);
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        /* ── Loading Spinner ── */
+        .spinner-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 0;
+        }
+        .spinner-container.active { display: flex; }
+        .spinner {
+            width: 44px; height: 44px;
+            border: 4px solid rgba(255,215,0,0.15);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner-text {
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* ── Toast ── */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            pointer-events: none;
+        }
+        .toast {
+            background: #1e1e1e;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 12px 24px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: auto;
+        }
+        .toast.success { border-color: var(--success); color: var(--success); }
+        .toast.error { border-color: var(--danger); color: var(--danger); }
+        .toast.info { border-color: var(--gold); color: var(--gold); }
+        .toast.fade-out { animation: toastOut 0.3s ease forwards; }
+
+        @keyframes toastIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        /* ── Confirm Modal ── */
+        .confirm-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 6px;
+        }
+        .confirm-product-name {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            margin-top: 50px;
+            padding: 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--card-border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        .footer a { color: var(--gold); text-decoration: none; transition: color 0.3s; }
+        .footer a:hover { color: #fff; }
+        .footer .copyright {
+            margin-top: 8px;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
             .header-bar {
                 flex-direction: column;
                 gap: 8px;
+                margin-top: 18px;
             }
-            .logo {
-                max-width: 60px;
-                max-height: 60px;
+            .brand-text {
+                align-items: center;
             }
-            .search-box {
-                max-width: 98vw;
+            .logo { max-width: 60px; max-height: 60px; }
+            .brand-title { font-size: 1.35rem; }
+            .brand-subtitle { font-size: 0.8rem; }
+            .bulk-update-container {
+                margin: 25px auto 10px auto;
             }
-        }
-        .logo {
-            max-width: 90px;
-            max-height: 90px;
-        }
-        .main-title {
-            color: #FFD700;
-            font-size: 2.2rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin: 0;
-        }
-        .search-box {
-            max-width: 400px;
-            margin: 25px auto 20px auto;
-        }
-        .products-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            justify-content: center;
-        }
-        .product-card {
-            background: #222;
-            color: #FFD700;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px #0002;
-            padding: 18px 16px 12px 16px;
-            min-width: 220px;
-            max-width: 350px;
-            width: 100%;
-            margin-bottom: 10px;
-            position: relative;
-            transition: box-shadow 0.2s;
-            cursor: pointer;
-        }
-        .product-card:hover {
-            box-shadow: 0 4px 16px #FFD70044;
-        }
-        .product-name {
-            font-size: 1.15rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #FFD700;
-            word-break: break-word;
-        }
-        .product-prices {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        .product-price-label {
-            color: #fff;
-            font-size: 0.95rem;
-        }
-        .product-price-value {
-            color: #FFD700;
-            font-size: 1.05rem;
-            font-weight: bold;
-        }
-        .card-actions {
-            display: none;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .product-card.show-actions .card-actions {
-            display: flex;
-        }
-        .btn-edit {
-            background: #FFD700;
-            color: #111;
-            border: none;
-            padding: 4px 16px;
-            border-radius: 6px;
-        }
-        .btn-edit:hover {
-            background: #e6be00;
-        }
-        .btn-delete {
-            background: #111;
-            color: #FFD700;
-            border: 1px solid #FFD700;
-            padding: 4px 16px;
-            border-radius: 6px;
-        }
-        .btn-delete:hover {
-            background: #FFD700;
-            color: #111;
-        }
-        .footer {
-            margin-top: 40px;
-            padding: 10px;
-            background: #222;
-            text-align: center;
-            color: #FFD700;
-            font-size: 1rem;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        a, a:visited {
-            color: #FFD700;
-        }
-        a:hover {
-            color: #fff;
+            .btn-bulk-update {
+                width: 100%;
+                max-width: 320px;
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            .toolbar {
+                padding: 0 10px;
+                margin: 16px auto 14px auto;
+                width: 100%;
+            }
+            .products-cards {
+                grid-template-columns: 1fr;
+                padding: 0 4px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="toast-container" id="toast-container"></div>
+
     <div class="container">
+        <!-- Header -->
         <div class="header-bar">
-            <img src="/static/logo.jpg" alt="شعار الشركة" class="logo">
+            <img src="/static/logo.jpg" onerror="this.onerror=null;this.src='/static/WhatsApp%20Image%202025-07-21%20at%2020.32.22_3a1f3a54.jpg';" alt="شعار الشركة" class="logo">
+            <div class="brand-text">
+                <span class="brand-title">أبناء الضوى</span>
+                <span class="brand-subtitle">Abnaa ElDawy</span>
+            </div>
         </div>
-        <div class="search-box d-flex align-items-center justify-content-center gap-2" style="max-width: 420px;">
-            <input type="text" id="search" class="form-control" placeholder="ابحث عن الصنف...">
-            <button id="show-add-form" class="btn btn-edit rounded-circle" title="إضافة صنف جديد" style="width:40px;height:40px;font-size:1.5rem;display:flex;align-items:center;justify-content:center;">+</button>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <input type="text" id="search" placeholder="ابحث عن صنف...">
+            <button class="icon-btn" id="show-add-modal" title="إضافة صنف">+</button>
         </div>
-        <div id="add-form-container" style="display:none; margin-bottom:20px;">
-            <form id="add-form" class="p-3 rounded" style="background:#222; color:#FFD700; max-width:400px; margin:auto; box-shadow:0 2px 8px #0002;">
-                <div class="mb-2">
-                    <label>الصنف</label>
-                    <input type="text" id="add-name" class="form-control" required>
-                </div>
-                <div class="mb-2">
-                    <label>جملة</label>
-                    <input type="number" id="add-selling" class="form-control" required>
-                </div>
-                <div class="mb-2">
-                    <label>قطاعى</label>
-                    <input type="number" id="add-purchase" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-edit">إضافة</button>
-                <button type="button" class="btn btn-delete" id="cancel-add">إلغاء</button>
-            </form>
-        </div>
+
+        <!-- Products Grid -->
         <div class="products-cards" id="products-cards"></div>
+
+        <!-- Bulk Update Button -->
+        <div class="bulk-update-container">
+            <button class="btn-bulk-update" id="show-pdf-modal" title="تحديث الأسعار من PDF">
+                <span class="btn-bulk-icon">📄</span>
+                <span>تحديث اسعار شامل</span>
+            </button>
+        </div>
+
+        <!-- Footer -->
         <div class="footer">
-            by Mohamed Hossam (juba) <br>
-            <span>للتواصل: </span>
+            by Mohamed Hossam (Juba)<br>
             <a href="mailto:m.hossam01102078685@gmail.com">m.hossam01102078685@gmail.com</a> |
             <a href="tel:+201102078685">+20 1102078685</a> |
             <a href="https://wa.me/qr/CKFJLNTSQSOPI1" target="_blank">WhatsApp</a>
-            <br>
-            <span style="font-size:0.95em; color:#FFD700;">جميع الحقوق محفوظة © 2025 أبناء الضوى للتجارة والتوزيع</span>
+            <div class="copyright">جميع الحقوق محفوظة © 2025 أبناء الضوى للتجارة والتوزيع</div>
         </div>
     </div>
+
+    <!-- ═══ Add Product Modal ═══ -->
+    <div class="modal-overlay" id="add-modal">
+        <div class="modal-box">
+            <div class="modal-title">➕ إضافة صنف جديد</div>
+            <input type="text" class="modal-input" id="add-name" placeholder="اسم الصنف">
+            <input type="number" class="modal-input" id="add-selling" placeholder="سعر الجملة">
+            <input type="number" class="modal-input" id="add-purchase" placeholder="سعر القطاعى">
+            <div class="modal-btns">
+                <button class="btn-action btn-gold" id="add-submit">إضافة</button>
+                <button class="btn-action btn-cancel" onclick="closeModal('add-modal')">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ Delete Confirm Modal ═══ -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal-box">
+            <div class="modal-title">🗑️ تأكيد الحذف</div>
+            <div class="confirm-text">
+                هل أنت متأكد من حذف صنف<br>
+                <span class="confirm-product-name" id="delete-product-name"></span>؟
+            </div>
+            <div class="modal-btns">
+                <button class="btn-action btn-outline" id="delete-confirm">حذف</button>
+                <button class="btn-action btn-cancel" onclick="closeModal('delete-modal')">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ PDF Upload Modal ═══ -->
+    <div class="modal-overlay" id="pdf-modal">
+        <div class="modal-box">
+            <div class="modal-title">📄 تحديث الأسعار من PDF</div>
+            <div id="pdf-form-section">
+                <input type="password" class="modal-input" id="pdf-pin" placeholder="🔑 رمز الدخول">
+                <div class="drop-zone" id="drop-zone">
+                    <span class="drop-icon">📁</span>
+                    اسحب ملف الـ PDF هنا<br>أو اضغط للاختيار
+                    <div class="file-name" id="pdf-file-name"></div>
+                </div>
+                <input type="file" id="pdf-file-input" accept=".pdf" style="display:none">
+                <div class="modal-btns">
+                    <button class="btn-action btn-gold" id="pdf-submit">تحديث قاعدة البيانات</button>
+                    <button class="btn-action btn-cancel" onclick="closeModal('pdf-modal')">إلغاء</button>
+                </div>
+            </div>
+            <div class="spinner-container" id="pdf-spinner">
+                <div class="spinner"></div>
+                <div class="spinner-text">جاري استخراج الأصناف وتحديث الأسعار...</div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const productsCards = document.getElementById('products-cards');
         const searchInput = document.getElementById('search');
 
+        // ═══ Toast System ═══
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // ═══ Modal System ═══
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', e => {
+                if (e.target === overlay) closeModal(overlay.id);
+            });
+        });
+
+        // ═══ Product Cards ═══
         function renderCard(product) {
             return `
                 <div class="product-card" data-id="${product.id}">
                     <div class="product-name">${product.name}</div>
-                    <div class="product-prices">
-                        <div><span class="product-price-label">جملة:</span> <input type="number" value="${product.selling_price}" class="product-price-value selling-input" data-id="${product.id}" readonly style="background:#333;color:#FFD700;width:80px;display:inline-block;border:1px solid #FFD700;border-radius:4px;text-align:center;padding:0 4px;"> </div>
-                        <div><span class="product-price-label">قطاعى:</span> <input type="number" value="${product.purchase_price}" class="product-price-value purchase-input" data-id="${product.id}" readonly style="background:#333;color:#FFD700;width:80px;display:inline-block;border:1px solid #FFD700;border-radius:4px;text-align:center;padding:0 4px;"> </div>
+                    <div class="card-divider"></div>
+                    <div class="price-row">
+                        <input type="number" value="${product.purchase_price}" class="price-input purchase-input" data-id="${product.id}" readonly>
+                        <span class="price-currency">ج.م</span>
                     </div>
                     <div class="card-actions">
-                        <button class="btn btn-edit" data-id="${product.id}">تعديل</button>
-                        <button class="btn btn-delete" data-id="${product.id}">حذف</button>
+                        <button class="btn-action btn-gold btn-edit" data-id="${product.id}">تعديل</button>
+                        <button class="btn-action btn-outline btn-delete" data-id="${product.id}" data-name="${product.name}">حذف</button>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
 
         function fetchProducts(query = '') {
@@ -205,16 +709,17 @@
                 .then(res => res.json())
                 .then(data => {
                     productsCards.innerHTML = '';
-                    data.forEach(product => {
-                        productsCards.insertAdjacentHTML('beforeend', renderCard(product));
-                    });
+                    if (!data.length) {
+                        productsCards.innerHTML = '<div class="no-results">لا توجد أصناف مطابقة للبحث</div>';
+                        return;
+                    }
+                    data.forEach(p => productsCards.insertAdjacentHTML('beforeend', renderCard(p)));
                 });
         }
 
-        searchInput.addEventListener('input', (e) => {
-            fetchProducts(e.target.value);
-        });
+        searchInput.addEventListener('input', e => fetchProducts(e.target.value));
 
+        // ═══ Card Actions Toggle ═══
         productsCards.addEventListener('click', function(e) {
             const card = e.target.closest('.product-card');
             if (!card || e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
@@ -226,87 +731,151 @@
             }
         });
 
-        productsCards.addEventListener('click', function(e) {
-            if (e.target.classList.contains('save-mode')) {
-                const id = e.target.dataset.id;
-                const card = e.target.closest('.product-card');
-                const name = card.querySelector('.product-name').textContent;
-                const selling = card.querySelector('.selling-input').value;
-                const purchase = card.querySelector('.purchase-input').value;
-                fetch(`/api/products/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: name,
-                        selling_price: selling,
-                        purchase_price: purchase
-                    })
-                }).then(res => res.json()).then(() => {
-                    card.querySelector('.selling-input').setAttribute('readonly', true);
-                    card.querySelector('.selling-input').style.background = '#333';
-                    card.querySelector('.selling-input').style.color = '#FFD700';
-                    card.querySelector('.purchase-input').setAttribute('readonly', true);
-                    card.querySelector('.purchase-input').style.background = '#333';
-                    card.querySelector('.purchase-input').style.color = '#FFD700';
-                    e.target.textContent = 'تعديل';
-                    e.target.classList.remove('save-mode');
-                    card.classList.remove('show-actions');
-                });
-            } else if (e.target.classList.contains('btn-edit')) {
-                const id = e.target.dataset.id;
-                const card = e.target.closest('.product-card');
-                card.querySelector('.selling-input').removeAttribute('readonly');
-                card.querySelector('.selling-input').style.background = '#fff';
-                card.querySelector('.selling-input').style.color = '#111';
-                card.querySelector('.purchase-input').removeAttribute('readonly');
-                card.querySelector('.purchase-input').style.background = '#fff';
-                card.querySelector('.purchase-input').style.color = '#111';
-                e.target.textContent = 'حفظ';
-                e.target.classList.add('save-mode');
-            } else if (e.target.classList.contains('btn-delete')) {
-                const id = e.target.dataset.id;
-                if (confirm('هل أنت متأكد من حذف هذا الصنف؟')) {
-                    fetch(`/api/products/${id}`, { method: 'DELETE' })
-                        .then(res => res.json())
-                        .then(() => {
-                            fetchProducts(searchInput.value);
-                        });
-                }
-            }
-        });
-
-        document.getElementById('show-add-form').onclick = function() {
-            document.getElementById('add-form-container').style.display = 'block';
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        document.getElementById('cancel-add').onclick = function() {
-            document.getElementById('add-form-container').style.display = 'none';
-        };
-        document.getElementById('add-form').onsubmit = function(ev) {
-            ev.preventDefault();
-            const name = document.getElementById('add-name').value;
-            const selling = document.getElementById('add-selling').value;
-            const purchase = document.getElementById('add-purchase').value;
-            fetch('/api/products', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    name: name,
-                    selling_price: selling,
-                    purchase_price: purchase
-                })
-            }).then(res => res.json()).then(() => {
-                document.getElementById('add-form-container').style.display = 'none';
-                document.getElementById('add-form').reset();
-                fetchProducts(searchInput.value);
-            });
-        };
-
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.product-card')) {
                 document.querySelectorAll('.product-card').forEach(c => c.classList.remove('show-actions'));
             }
         });
+
+        // ═══ Edit & Save ═══
+        productsCards.addEventListener('click', function(e) {
+            if (e.target.classList.contains('save-mode')) {
+                const id = e.target.dataset.id;
+                const card = e.target.closest('.product-card');
+                const name = card.querySelector('.product-name').textContent;
+                const purchase = card.querySelector('.purchase-input').value;
+                fetch(`/api/products/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, selling_price: purchase, purchase_price: purchase })
+                }).then(res => res.json()).then(() => {
+                    const inp = card.querySelector('.purchase-input');
+                    inp.setAttribute('readonly', true);
+                    inp.style.background = '';
+                    inp.style.color = '';
+                    e.target.textContent = 'تعديل';
+                    e.target.classList.remove('save-mode');
+                    card.classList.remove('show-actions');
+                    showToast('تم حفظ التعديلات بنجاح ✅', 'success');
+                });
+            } else if (e.target.classList.contains('btn-edit')) {
+                const card = e.target.closest('.product-card');
+                const inp = card.querySelector('.purchase-input');
+                inp.removeAttribute('readonly');
+                inp.style.background = 'rgba(255,255,255,0.1)';
+                inp.style.color = '#fff';
+                inp.focus();
+                e.target.textContent = 'حفظ';
+                e.target.classList.add('save-mode');
+            } else if (e.target.classList.contains('btn-delete')) {
+                pendingDeleteId = e.target.dataset.id;
+                document.getElementById('delete-product-name').textContent = e.target.dataset.name;
+                openModal('delete-modal');
+            }
+        });
+
+        // ═══ Delete Confirm ═══
+        let pendingDeleteId = null;
+        document.getElementById('delete-confirm').addEventListener('click', () => {
+            if (!pendingDeleteId) return;
+            fetch(`/api/products/${pendingDeleteId}`, { method: 'DELETE' })
+                .then(res => res.json())
+                .then(() => {
+                    closeModal('delete-modal');
+                    fetchProducts(searchInput.value);
+                    showToast('تم حذف الصنف ✅', 'success');
+                    pendingDeleteId = null;
+                });
+        });
+
+        // ═══ Add Product ═══
+        document.getElementById('show-add-modal').addEventListener('click', () => openModal('add-modal'));
+        document.getElementById('add-submit').addEventListener('click', () => {
+            const name = document.getElementById('add-name').value.trim();
+            const selling = document.getElementById('add-selling').value;
+            const purchase = document.getElementById('add-purchase').value;
+            if (!name || !selling || !purchase) {
+                showToast('يرجى ملء جميع الحقول', 'error');
+                return;
+            }
+            fetch('/api/products', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ name, selling_price: selling, purchase_price: purchase })
+            }).then(res => res.json()).then(() => {
+                closeModal('add-modal');
+                document.getElementById('add-name').value = '';
+                document.getElementById('add-selling').value = '';
+                document.getElementById('add-purchase').value = '';
+                fetchProducts(searchInput.value);
+                showToast('تم إضافة الصنف بنجاح ✅', 'success');
+            });
+        });
+
+        // ═══ PDF Upload ═══
+        let selectedPdfFile = null;
+        const dropZone = document.getElementById('drop-zone');
+        const pdfInput = document.getElementById('pdf-file-input');
+        const pdfFileName = document.getElementById('pdf-file-name');
+
+        document.getElementById('show-pdf-modal').addEventListener('click', () => {
+            selectedPdfFile = null;
+            pdfFileName.textContent = '';
+            document.getElementById('pdf-pin').value = '';
+            document.getElementById('pdf-form-section').style.display = '';
+            document.getElementById('pdf-spinner').classList.remove('active');
+            openModal('pdf-modal');
+        });
+
+        dropZone.addEventListener('click', () => pdfInput.click());
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length && e.dataTransfer.files[0].name.toLowerCase().endsWith('.pdf')) {
+                selectedPdfFile = e.dataTransfer.files[0];
+                pdfFileName.textContent = selectedPdfFile.name;
+            }
+        });
+        pdfInput.addEventListener('change', () => {
+            if (pdfInput.files.length) {
+                selectedPdfFile = pdfInput.files[0];
+                pdfFileName.textContent = selectedPdfFile.name;
+            }
+        });
+
+        document.getElementById('pdf-submit').addEventListener('click', () => {
+            const pin = document.getElementById('pdf-pin').value;
+            if (!pin) { showToast('يرجى إدخال رمز الدخول', 'error'); return; }
+            if (!selectedPdfFile) { showToast('يرجى اختيار ملف PDF', 'error'); return; }
+
+            document.getElementById('pdf-form-section').style.display = 'none';
+            document.getElementById('pdf-spinner').classList.add('active');
+
+            const formData = new FormData();
+            formData.append('pin', pin);
+            formData.append('pdf', selectedPdfFile);
+
+            fetch('/api/admin/update-pdf', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('pdf-spinner').classList.remove('active');
+                    if (data.status === 'success') {
+                        closeModal('pdf-modal');
+                        showToast(`تم تحديث ${data.count} صنف بنجاح! 🎉`, 'success', 5000);
+                        fetchProducts(searchInput.value);
+                    } else {
+                        document.getElementById('pdf-form-section').style.display = '';
+                        showToast(data.message || 'حدث خطأ', 'error');
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('pdf-spinner').classList.remove('active');
+                    document.getElementById('pdf-form-section').style.display = '';
+                    showToast('حدث خطأ في الاتصال بالسيرفر', 'error');
+                });
+        });
     </script>
 </body>
-</html> 
+</html>
