@@ -48,7 +48,7 @@ A modern, high-performance product price catalog and management system designed 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/AbnaaEldawy.git
+git clone https://github.com/juba/AbnaaEldawy.git
 cd AbnaaEldawy
 ```
 
@@ -81,25 +81,25 @@ Open your browser at `http://localhost:5000` or `http://127.0.0.1:5000`.
 1. Create a Web App on [PythonAnywhere](https://www.pythonanywhere.com/) (select **Manual configuration** with **Python 3.10+**).
 2. Clone or upload the repository files into your PythonAnywhere directory:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/AbnaaEldawy.git /home/YOUR_USERNAME/AbnaaEldawy
+   git clone https://github.com/juba/AbnaaEldawy.git /home/juba/AbnaaEldawy
    ```
 3. Install dependencies in the PythonAnywhere console:
    ```bash
    pip3 install -r requirements.txt
    ```
 4. In your Web App configuration tab:
-   - Set **Source code** to `/home/YOUR_USERNAME/AbnaaEldawy`
-   - Set **Working directory** to `/home/YOUR_USERNAME/AbnaaEldawy`
+   - Set **Source code** to `/home/juba/AbnaaEldawy`
+   - Set **Working directory** to `/home/juba/AbnaaEldawy`
    - Edit the **WSGI configuration file** to point to `app`:
      ```python
      import sys
-     path = '/home/YOUR_USERNAME/AbnaaEldawy'
+     path = '/home/juba/AbnaaEldawy'
      if path not in sys.path:
          sys.path.append(path)
 
      from app import app as application
      ```
-5. Click **Reload Web App**. Your site will be live at `https://YOUR_USERNAME.pythonanywhere.com`!
+5. Click **Reload Web App**. Your site will be live at `https://juba.pythonanywhere.com`!
 
 ---
 
@@ -137,8 +137,5 @@ Open your browser at `http://localhost:5000` or `http://127.0.0.1:5000`.
 ## 👤 Author
 
 **Mohamed Hossam (Juba)**
-- Email: [m.hossam01102078685@gmail.com](mailto:m.hossam01102078685@gmail.com)
-- Phone: [+20 1102078685](tel:+201102078685)
-- WhatsApp: [Chat on WhatsApp](https://wa.me/qr/CKFJLNTSQSOPI1)
 
 جميع الحقوق محفوظة © 2025 أبناء الضوى للتجارة والتوزيع
