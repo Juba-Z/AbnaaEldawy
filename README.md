@@ -48,7 +48,7 @@ A modern, high-performance product price catalog and management system designed 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/juba/AbnaaEldawy.git
+git clone https://github.com/Juba-Z/AbnaaEldawy.git
 cd AbnaaEldawy
 ```
 
